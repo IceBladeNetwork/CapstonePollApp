@@ -49,7 +49,7 @@ namespace PollApp.Controllers
                     Choice3 = newPollViewModel.Choice3,
                     Choice4 = newPollViewModel.Choice4,
                     ChoiceVotes = 0,
-                    Choic2eVotes = 0,
+                    Choice2Votes = 0,
                     Choice3Votes = 0,
                     Choice4Votes = 0,
                     Total = 0,
@@ -79,7 +79,39 @@ namespace PollApp.Controllers
         [Route("/Poll/ID/{id}")]
         public IActionResult Polls(int id, PollVotingViewModel pollVotingViewModel)
         {
-            return View();
+            if (pollVotingViewModel.ChoiceSelected)
+            {
+                var currentPoll = context.Polls.Single(c => c.ID == id);
+                currentPoll.ChoiceVotes++;
+                currentPoll.Total++;
+                context.SaveChanges();
+                return Redirect("/Poll/ID/" + id + "/Results");
+            }
+            if (pollVotingViewModel.Choice2Selected)
+            {
+                var currentPoll = context.Polls.Single(c => c.ID == id);
+                currentPoll.Choice2Votes++;
+                currentPoll.Total++;
+                context.SaveChanges();
+                return Redirect("/Poll/ID/" + id + "/Results");
+            }
+            if (pollVotingViewModel.Choice3Selected)
+            {
+                var currentPoll = context.Polls.Single(c => c.ID == id);
+                currentPoll.Choice3Votes++;
+                currentPoll.Total++;
+                context.SaveChanges();
+                return Redirect("/Poll/ID/" + id + "/Results");
+            }
+            if (pollVotingViewModel.Choice4Selected)
+            {
+                var currentPoll = context.Polls.Single(c => c.ID == id);
+                currentPoll.Choice4Votes++;
+                currentPoll.Total++;
+                context.SaveChanges();
+                return Redirect("/Poll/ID/" + id + "/Results");
+            }
+            return Redirect("Poll/ID/" + id);
         }
 
         [Route("/Poll/ID/{id}/Results")]

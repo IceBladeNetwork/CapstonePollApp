@@ -12,7 +12,7 @@ namespace PollApp.Models
         public string Choice { get; set; }
         public int ChoiceVotes { get; set; }
         public string Choice2 { get; set; }
-        public int Choic2eVotes { get; set; }
+        public int Choice2Votes { get; set; }
         public string Choice3 { get; set; }
         public int Choice3Votes { get; set; }
         public string Choice4 { get; set; }
