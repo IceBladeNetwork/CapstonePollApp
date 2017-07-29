@@ -1,0 +1,36 @@
+﻿@model PollApp.ViewModel.NewPollViewModel
+<h2>Add a poll</h2>
+
+<form asp-controller="Poll" asp-action="New" method="post">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input class="form-control" asp-for="Choice1" />
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Choice"></label>
+        <input class="form-control" asp-for="Choice" />
+        <span asp-validation-for="Choice"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Choice2"></label>
+        <input class="form-control" asp-for="Choice2" />
+        <span asp-validation-for="Choice2"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Choice3"></label>
+        <input class="form-control" asp-for="Choice3" />
+        <span asp-validation-for="Choice3"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Choice4"></label>
+        <input class="form-control" asp-for="Choice4" />
+        <span asp-validation-for="Choice4"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CateID"></label>
+        <select asp-for="CateID" asp-items="Model.CategoriesList" ></select>
+        <span asp-validation-for="CateID"></span>
+    </div>
+    <input type="submit" value="Add Poll"/>
+</form>
