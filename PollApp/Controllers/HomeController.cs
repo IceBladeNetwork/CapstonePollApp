@@ -23,7 +23,7 @@ namespace PollApp.Controllers
 
         public IActionResult Index()
         {
-            List<Polls> items = context.Polls.ToList();
+            List<Polls> items = context.Polls.OrderBy(d => d.DateCreated).ToList();
             ViewBag.items = items;
             return View();
         }

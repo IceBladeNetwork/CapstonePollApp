@@ -1,0 +1,10 @@
+﻿@model PollApp.ViewModel.NewCategoryViewModel
+ 
+<form asp-controller="Categories" asp-action="New" method="post">
+    <div class="form-group">
+        <label asp-for="Category"></label>
+        <input class="form-control" asp-for="Category" />
+        <span asp-validation-for="Category"></span>
+    </div>
+    <input class="btn" type="submit" value="Add Category" />
+</form>

@@ -35,7 +35,7 @@ namespace PollApp.Controllers
         [HttpPost]
         public IActionResult New(NewCategoryViewModel newCategoryViewModel)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && newCategoryViewModel.Category.IndexOf("/") < 0)
             {
                 Categories newCategories = new Categories
                 {
@@ -45,6 +45,13 @@ namespace PollApp.Controllers
                 context.SaveChanges();
                 return Redirect("/Categories");
             }
+            return View(newCategoryViewModel);
+        }
+
+        [Route("/Categories/C/{category}")]
+        public IActionResult Category(string category)
+        {
+            ViewBag.items = context.Polls.Where(c => c.Catagory == category).OrderByDescending(d => d.DateCreated).ToList();
             return View();
         }
     }

@@ -16,6 +16,18 @@ namespace PollApp.Migrations
                 .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("PollApp.Models.Categories", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Category");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("PollApp.Models.Polls", b =>
                 {
                     b.Property<int>("ID")
@@ -23,11 +35,11 @@ namespace PollApp.Migrations
 
                     b.Property<string>("Catagory");
 
-                    b.Property<int>("Choic2eVotes");
-
                     b.Property<string>("Choice");
 
                     b.Property<string>("Choice2");
+
+                    b.Property<int>("Choice2Votes");
 
                     b.Property<string>("Choice3");
 
@@ -38,6 +50,8 @@ namespace PollApp.Migrations
                     b.Property<int>("Choice4Votes");
 
                     b.Property<int>("ChoiceVotes");
+
+                    b.Property<DateTime>("DateCreated");
 
                     b.Property<string>("Title");
 

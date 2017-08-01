@@ -1,0 +1,16 @@
+﻿@if (ViewBag.Categories.Count > 0)
+{
+    <table class="table">
+        @foreach (var items in ViewBag.Categories)
+        {
+            <tr>
+                <td><a href="/Categories/C/@items.Category">@items.Category</a></td>
+            </tr>
+        }
+    </table>
+}
+
+@if (ViewBag.Categories.Count <= 0)
+{
+    <h2>Sorry, no categories yet. :(</h2>
+}

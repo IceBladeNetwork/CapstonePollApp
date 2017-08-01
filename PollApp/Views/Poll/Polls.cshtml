@@ -1,0 +1,24 @@
+﻿@model PollApp.ViewModel.PollVotingViewModel
+
+@using (Html.BeginForm("Polls", "Poll", FormMethod.Post))
+{
+    <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, Model.Choice) @Model.Choice</label>
+    <br />
+    <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, Model.Choice2) @Model.Choice2</label>
+    <br />
+    @if (Model.Choice3 != null)
+    {
+        <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, Model.Choice3) @Model.Choice3</label>
+        <br />
+    }
+    @if (Model.Choice4 != null)
+    {
+        <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, Model.Choice4) @Model.Choice4</label>
+        <br />
+    }
+
+    <input class="btn" type="submit" value="Vote!"/>
+}
+
+<p>Date Created: @Model.DateCreated</p>
+<p>Category: <a href="/Categories/C/@Model.Category">@Model.Category</a></p>

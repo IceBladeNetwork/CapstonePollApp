@@ -1,0 +1,16 @@
+﻿@if (ViewBag.items.Count > 0)
+{
+    <table class="table">
+        @foreach (var items in ViewBag.items)
+        {
+            <tr>
+                <td><a href="Polls/ID/@items.ID">@items.Title</a></td>
+            </tr>
+        }
+    </table>
+}
+
+@if (ViewBag.items.Count <= 0)
+{
+    <h2>Sorry, no polls yet. :(</h2>
+}

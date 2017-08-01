@@ -1,0 +1,41 @@
+﻿<table class="table">
+    <tr>
+        <td>@ViewBag.currentPoll.Title</td>
+    </tr>
+    <tr>
+        <td>Choices</td>
+        <td>Votes</td>
+    </tr>
+    <tr>
+        <td>@ViewBag.currentPoll.Choice</td>
+        <td>@ViewBag.currentPoll.ChoiceVotes (@ViewBag.percent[0]%)</td>
+    </tr>
+    <tr>
+        <td>@ViewBag.currentPoll.Choice2</td>
+        <td>@ViewBag.currentPoll.Choice2Votes (@ViewBag.percent[1]%)</td>
+    </tr>
+    @if (ViewBag.currentPoll.Choice3 != null)
+    {
+        <tr>
+            <td>@ViewBag.currentPoll.Choice3</td>
+            <td>@ViewBag.currentPoll.Choice3Votes (@ViewBag.percent[2]%)</td>
+        </tr>
+    }
+    @if (ViewBag.currentPoll.Choice4 != null)
+    {
+        <tr>
+            <td>@ViewBag.currentPoll.Choice4</td>
+            <td>@ViewBag.currentPoll.Choice4Votes (@ViewBag.percent[3]%)</td>
+        </tr>
+    }
+    <tr>
+        <td>Total</td>
+        <td>@ViewBag.currentPoll.Total</td>
+    </tr>
+    <tr>
+        <td>Category: <a href="/Categories/C/@ViewBag.currentPoll.Catagory">@ViewBag.currentPoll.Catagory </a></td>
+        <td> Date Created: @ViewBag.currentPoll.DateCreated</td>
+    </tr>
+</table>
+
+<h2>Share! https://{URL}.com/Poll/ID/@ViewBag.currentPoll.ID</h2>

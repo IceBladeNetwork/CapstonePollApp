@@ -24,4 +24,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.0.0-msbuild2-final" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0-msbuild2-final" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
 </Project>

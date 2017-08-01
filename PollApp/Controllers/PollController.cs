@@ -54,14 +54,14 @@ namespace PollApp.Controllers
                     Choice4Votes = 0,
                     Total = 0,
                     Catagory = category,
-                    DateCreated = DateTime.Today
+                    DateCreated = DateTime.Now
                 };
 
                 context.Polls.Add(newPoll);
                 context.SaveChanges();
 
-                int newId = context.Polls.Include(c => c.ID).ToList()[-1].ID;
-                return Redirect("/Poll/Polls/" + newId + "/Results");
+                int newId = context.Polls.OrderByDescending(d => d.DateCreated).ToList()[0].ID;
+                return Redirect("/Poll/ID/" + newId + "/Results");
             }
             return View(newPollViewModel);
         }
@@ -74,44 +74,48 @@ namespace PollApp.Controllers
             return View(pollVotingViewModel);
         }
 
-
         [HttpPost]
         [Route("/Poll/ID/{id}")]
-        public IActionResult Polls(int id, PollVotingViewModel pollVotingViewModel)
+        public IActionResult Polls(PollVotingViewModel pollVotingViewModel)
         {
-            if (pollVotingViewModel.ChoiceSelected)
+            if (ModelState.IsValid)
             {
-                var currentPoll = context.Polls.Single(c => c.ID == id);
-                currentPoll.ChoiceVotes++;
-                currentPoll.Total++;
-                context.SaveChanges();
-                return Redirect("/Poll/ID/" + id + "/Results");
+                Polls currentPoll = context.Polls.Single(c => c.ID == pollVotingViewModel.ID);
+                if (pollVotingViewModel.ChoiceSelected == currentPoll.Choice)
+                {
+                    
+                    currentPoll.ChoiceVotes++;
+                    currentPoll.Total++;
+                    context.SaveChanges();
+                    return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
+                }
+                if (pollVotingViewModel.ChoiceSelected == currentPoll.Choice2)
+                {
+                    
+                    currentPoll.Choice2Votes++;
+                    currentPoll.Total++;
+                    context.SaveChanges();
+                    return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
+                }
+                if (pollVotingViewModel.ChoiceSelected == currentPoll.Choice3)
+                {
+                    
+                    currentPoll.Choice3Votes++;
+                    currentPoll.Total++;
+                    context.SaveChanges();
+                    return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
+                }
+                if (pollVotingViewModel.ChoiceSelected == currentPoll.Choice4)
+                {
+                    
+                    currentPoll.Choice4Votes++;
+                    currentPoll.Total++;
+                    context.SaveChanges();
+                    return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
+                }
+                return Redirect(pollVotingViewModel.ID.ToString());
             }
-            if (pollVotingViewModel.Choice2Selected)
-            {
-                var currentPoll = context.Polls.Single(c => c.ID == id);
-                currentPoll.Choice2Votes++;
-                currentPoll.Total++;
-                context.SaveChanges();
-                return Redirect("/Poll/ID/" + id + "/Results");
-            }
-            if (pollVotingViewModel.Choice3Selected)
-            {
-                var currentPoll = context.Polls.Single(c => c.ID == id);
-                currentPoll.Choice3Votes++;
-                currentPoll.Total++;
-                context.SaveChanges();
-                return Redirect("/Poll/ID/" + id + "/Results");
-            }
-            if (pollVotingViewModel.Choice4Selected)
-            {
-                var currentPoll = context.Polls.Single(c => c.ID == id);
-                currentPoll.Choice4Votes++;
-                currentPoll.Total++;
-                context.SaveChanges();
-                return Redirect("/Poll/ID/" + id + "/Results");
-            }
-            return Redirect("Poll/ID/" + id);
+            return Redirect(pollVotingViewModel.ID.ToString());
         }
 
         [Route("/Poll/ID/{id}/Results")]
@@ -119,6 +123,14 @@ namespace PollApp.Controllers
         {
             Polls currentPoll = context.Polls.Single(c => c.ID == id);
             ViewBag.currentPoll = currentPoll;
+            List<float> percent = new List<float>
+            {
+                (currentPoll.ChoiceVotes / (float)currentPoll.Total) * 100,
+                (currentPoll.Choice2Votes / (float)currentPoll.Total) * 100,
+                (currentPoll.Choice3Votes / (float)currentPoll.Total) * 100,
+                (currentPoll.Choice4Votes / (float)currentPoll.Total) * 100
+            };
+            ViewBag.percent = percent;
             return View();
         }
     }
