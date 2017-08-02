@@ -30,9 +30,13 @@ namespace PollApp.Controllers
 
         public IActionResult New()
         {
-            IEnumerable<Categories> cateList = context.Categories.ToList();
-            NewPollViewModel newPollViewModel = new NewPollViewModel(cateList);
-            return View(newPollViewModel);
+            if (context.Categories.ToList().Count > 0)
+            {
+                IEnumerable<Categories> cateList = context.Categories.ToList();
+                NewPollViewModel newPollViewModel = new NewPollViewModel(cateList);
+                return View(newPollViewModel);
+            }
+            return Redirect("/Categories/New");
         }
 
         [HttpPost]
