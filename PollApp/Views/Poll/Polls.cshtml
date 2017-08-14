@@ -2,18 +2,18 @@
 
 @using (Html.BeginForm("Polls", "Poll", FormMethod.Post))
 {
-    <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, Model.Choice) @Model.Choice</label>
+    <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, "1") @Model.Choice</label>
     <br />
-    <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, Model.Choice2) @Model.Choice2</label>
+    <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, "2") @Model.Choice2</label>
     <br />
     @if (Model.Choice3 != null)
     {
-        <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, Model.Choice3) @Model.Choice3</label>
+        <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, "3") @Model.Choice3</label>
         <br />
     }
     @if (Model.Choice4 != null)
     {
-        <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, Model.Choice4) @Model.Choice4</label>
+        <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, "4") @Model.Choice4</label>
         <br />
     }
 

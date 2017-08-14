@@ -7,6 +7,12 @@
   <PropertyGroup>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\js\site.js" />
+    <Content Include="wwwroot\lib\jquery-plugins\Highcharts.js" />
+    <Content Include="wwwroot\lib\jquery-plugins\jquery.highchartTable.js" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
@@ -23,8 +29,5 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.0.0-msbuild2-final" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0-msbuild2-final" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 </Project>

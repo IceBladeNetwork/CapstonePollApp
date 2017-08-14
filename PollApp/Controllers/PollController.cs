@@ -85,7 +85,7 @@ namespace PollApp.Controllers
             if (ModelState.IsValid)
             {
                 Polls currentPoll = context.Polls.Single(c => c.ID == pollVotingViewModel.ID);
-                if (pollVotingViewModel.ChoiceSelected == currentPoll.Choice)
+                if (pollVotingViewModel.ChoiceSelected == "1")
                 {
                     
                     currentPoll.ChoiceVotes++;
@@ -93,7 +93,7 @@ namespace PollApp.Controllers
                     context.SaveChanges();
                     return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
                 }
-                if (pollVotingViewModel.ChoiceSelected == currentPoll.Choice2)
+                if (pollVotingViewModel.ChoiceSelected == "2")
                 {
                     
                     currentPoll.Choice2Votes++;
@@ -101,7 +101,7 @@ namespace PollApp.Controllers
                     context.SaveChanges();
                     return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
                 }
-                if (pollVotingViewModel.ChoiceSelected == currentPoll.Choice3)
+                if (pollVotingViewModel.ChoiceSelected == "3")
                 {
                     
                     currentPoll.Choice3Votes++;
@@ -109,7 +109,7 @@ namespace PollApp.Controllers
                     context.SaveChanges();
                     return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
                 }
-                if (pollVotingViewModel.ChoiceSelected == currentPoll.Choice4)
+                if (pollVotingViewModel.ChoiceSelected == "4")
                 {
                     
                     currentPoll.Choice4Votes++;
