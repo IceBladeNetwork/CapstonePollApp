@@ -2,35 +2,28 @@
 <h2>Add a poll</h2>
 
 <form asp-controller="Poll" asp-action="New" method="post">
-    <div class="form-group">
-        <label asp-for="Title"></label>
-        <input class="form-control" asp-for="Title" />
-        <span asp-validation-for="Title"></span>
+    <div id="choices">
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input class="form-control" asp-for="Title"/>
+            <span asp-validation-for="Title"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Choice"></label>
+            <input class="form-control" asp-for="Choice"/>
+            <span asp-validation-for="Choice"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Choices"></label> 2
+            <input class="form-control" asp-for="Choices"/>
+            <span asp-validation-for="Choices"></span>
+        </div>
     </div>
+    <input type="button" value="Add Choice" id="add" class="btn"/>
     <div class="form-group">
-        <label asp-for="Choice"></label>
-        <input class="form-control" asp-for="Choice" />
-        <span asp-validation-for="Choice"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Choice2"></label>
-        <input class="form-control" asp-for="Choice2" />
-        <span asp-validation-for="Choice2"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Choice3"></label>
-        <input class="form-control" asp-for="Choice3" />
-        <span asp-validation-for="Choice3"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Choice4"></label>
-        <input class="form-control" asp-for="Choice4" />
-        <span asp-validation-for="Choice4"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="CateID"></label>
-        <select asp-for="CateID" asp-items="Model.CategoriesList" ></select>
-        <span asp-validation-for="CateID"></span>
+        <label asp-for="CateId"></label>
+        <select asp-for="CateId" asp-items="Model.CategoriesList"></select>
+        <span asp-validation-for="CateId"></span>
     </div>
     <input class="btn" type="submit" value="Add Poll"/>
 </form>

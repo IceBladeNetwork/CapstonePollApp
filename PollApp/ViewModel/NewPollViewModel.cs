@@ -14,12 +14,12 @@ namespace PollApp.ViewModel
         public string Title { get; set; }
         [Required]
         public string Choice { get; set; }
+
         [Required]
-        public string Choice2 { get; set; }
-        public string Choice3 { get; set; }
-        public string Choice4 { get; set; }
+        public List<string> Choices { get; set; }
+
         [Required]
-        public int CateID { get; set; }
+        public int CateId { get; set; }
         public List<SelectListItem> CategoriesList { get; set; } = new List<SelectListItem>();
 
         public NewPollViewModel()
@@ -27,7 +27,7 @@ namespace PollApp.ViewModel
 
         public NewPollViewModel(IEnumerable<Categories> cateList)
         {
-            foreach (Categories field in cateList)
+            foreach (var field in cateList)
             {
                 CategoriesList.Add(new SelectListItem
                 {

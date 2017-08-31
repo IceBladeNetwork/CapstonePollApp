@@ -1,17 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
   </PropertyGroup>
-
   <ItemGroup>
-    <Content Include="wwwroot\js\site.js" />
-    <Content Include="wwwroot\lib\jquery-plugins\Highcharts.js" />
-    <Content Include="wwwroot\lib\jquery-plugins\jquery.highchartTable.js" />
+    <Compile Remove="wwwroot\lib\jquery-plugins\**" />
+    <Content Remove="wwwroot\lib\jquery-plugins\**" />
+    <EmbeddedResource Remove="wwwroot\lib\jquery-plugins\**" />
+    <None Remove="wwwroot\lib\jquery-plugins\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />

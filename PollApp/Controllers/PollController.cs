@@ -44,18 +44,10 @@ namespace PollApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                string category = context.Categories.Single(c => c.ID == newPollViewModel.CateID).Category;
+                string category = context.Categories.Single(c => c.ID == newPollViewModel.CateId).Category;
                 Polls newPoll = new Polls
                 {
                     Title = newPollViewModel.Title,
-                    Choice = newPollViewModel.Choice,
-                    Choice2 = newPollViewModel.Choice2,
-                    Choice3 = newPollViewModel.Choice3,
-                    Choice4 = newPollViewModel.Choice4,
-                    ChoiceVotes = 0,
-                    Choice2Votes = 0,
-                    Choice3Votes = 0,
-                    Choice4Votes = 0,
                     Total = 0,
                     Catagory = category,
                     DateCreated = DateTime.Now
@@ -65,7 +57,7 @@ namespace PollApp.Controllers
                 context.SaveChanges();
 
                 int newId = context.Polls.OrderByDescending(d => d.DateCreated).ToList()[0].ID;
-                return Redirect("/Poll/ID/" + newId + "/Results");
+                return Redirect("/Poll/New/" + newId);
             }
             return View(newPollViewModel);
         }
@@ -85,38 +77,7 @@ namespace PollApp.Controllers
             if (ModelState.IsValid)
             {
                 Polls currentPoll = context.Polls.Single(c => c.ID == pollVotingViewModel.ID);
-                if (pollVotingViewModel.ChoiceSelected == "1")
-                {
-                    
-                    currentPoll.ChoiceVotes++;
-                    currentPoll.Total++;
-                    context.SaveChanges();
-                    return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
-                }
-                if (pollVotingViewModel.ChoiceSelected == "2")
-                {
-                    
-                    currentPoll.Choice2Votes++;
-                    currentPoll.Total++;
-                    context.SaveChanges();
-                    return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
-                }
-                if (pollVotingViewModel.ChoiceSelected == "3")
-                {
-                    
-                    currentPoll.Choice3Votes++;
-                    currentPoll.Total++;
-                    context.SaveChanges();
-                    return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
-                }
-                if (pollVotingViewModel.ChoiceSelected == "4")
-                {
-                    
-                    currentPoll.Choice4Votes++;
-                    currentPoll.Total++;
-                    context.SaveChanges();
-                    return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
-                }
+               
                 return Redirect(pollVotingViewModel.ID.ToString());
             }
             return Redirect(pollVotingViewModel.ID.ToString());
@@ -127,14 +88,6 @@ namespace PollApp.Controllers
         {
             Polls currentPoll = context.Polls.Single(c => c.ID == id);
             ViewBag.currentPoll = currentPoll;
-            List<float> percent = new List<float>
-            {
-                (currentPoll.ChoiceVotes / (float)currentPoll.Total) * 100,
-                (currentPoll.Choice2Votes / (float)currentPoll.Total) * 100,
-                (currentPoll.Choice3Votes / (float)currentPoll.Total) * 100,
-                (currentPoll.Choice4Votes / (float)currentPoll.Total) * 100
-            };
-            ViewBag.percent = percent;
             return View();
         }
     }
