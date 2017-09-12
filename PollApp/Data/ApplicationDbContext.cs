@@ -11,6 +11,8 @@ namespace PollApp.Data
     {
         public DbSet<Polls> Polls { get; set; }
         public DbSet<Categories> Categories { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Choices> Choices { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
