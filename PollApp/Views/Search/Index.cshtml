@@ -1,0 +1,41 @@
+﻿@model PollApp.ViewModel.SearchViewModel
+
+<h1>@ViewBag.Title</h1>
+<div asp-validation-summary="All"></div>
+
+<form asp-action="Results" asp-controller="Search">
+    <span>
+        <input type="radio" name="Column" id="All" value="All" checked="@Model.Column" selected/>
+        <label>All</label>
+    </span>
+    <span>
+        <input type="radio" name="Column" id="Title" value="Title" checked="@Model.Column" />
+        <label>Title</label>
+    </span>
+    <span>
+        <input type="radio" name="Column" id="Category" value="Category" checked="@Model.Column" />
+        <label>Category</label>
+    </span>
+    <span>
+        <input type="radio" name="Column" id="Choice" value="Choice" checked="@Model.Column" />
+        <label>Choice</label>
+    </span>
+    <div>
+        <label asp-for="Value"></label>
+        <input asp-for="Value" />
+    </div>
+    <input type="submit" value="Search" />
+</form>
+
+@if (Model.Polls.Count > 0)
+{
+    <h3>@Model.Polls.Count Result(s)</h3>
+    <table class="table">
+        @foreach (var item in Model.Polls)
+        {
+            <tr>
+                <td><a href="/Poll/ID/@item.ID">@item.Title</a> | <a href="/Poll/ID/@item.ID/Results">Results</a></td>
+            </tr>
+        }
+    </table>
+}

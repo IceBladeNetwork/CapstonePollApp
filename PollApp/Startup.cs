@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PollApp.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using PollApp.Models;
+
 namespace PollApp
 {
     public class Startup
@@ -28,9 +31,11 @@ namespace PollApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
             // Add framework services.
             services.AddMvc();
+            services.AddDistributedMemoryCache();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +55,15 @@ namespace PollApp
             }
 
             app.UseStaticFiles();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                AccessDeniedPath = "/Account/Forbidden/",
+                AuthenticationScheme = "MyCookieAuthenticationScheme",
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                LoginPath = "/Account/Unauthorized/"
+            });
 
             app.UseMvc(routes =>
             {

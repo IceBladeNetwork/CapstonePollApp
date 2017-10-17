@@ -9,6 +9,9 @@ namespace PollApp.Models
     {
         public int ID { get; set; }
         public string Choice { get; set; }
+        public int Votes { get; set; }
         public int PollID { get; set; }
+        public Polls Poll { get; set; }
+        
     }
 }

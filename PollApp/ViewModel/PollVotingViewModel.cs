@@ -11,28 +11,26 @@ namespace PollApp.ViewModel
     {
         public int ID { get; set; }
         public string Title { get; set; }
-        public string Choice { get; set; }
-        public string Choice2 { get; set; }
-        public string Choice3 { get; set; }
-        public string Choice4 { get; set; }
+        public List<string> PollChoices { get; set; }
         public string Category { get; set; }
 
         [Required]
-        public string ChoiceSelected { get; set; }
+        public String ChoiceSelected { get; set; }
         public DateTime DateCreated { get; set; }
         public PollVotingViewModel()
         {}
 
-        public PollVotingViewModel(Polls poll)
+        public PollVotingViewModel(Polls poll, List<Choices> choices)
         {
             ID = poll.ID;
             Title = poll.Title;
-            Choice = poll.Choice;
-            Choice2 = poll.Choice2;
-            Choice3 = poll.Choice3;
-            Choice4 = poll.Choice4;
             Category = poll.Catagory;
             DateCreated = poll.DateCreated;
+            PollChoices = new List<string>();
+            foreach (Choices choice in choices)
+            {
+                PollChoices.Add(choice.Choice);
+            }
         }
     }
 }

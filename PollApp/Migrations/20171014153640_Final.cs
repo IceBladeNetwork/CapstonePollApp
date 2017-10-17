@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace PollApp.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Final : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,14 +29,6 @@ namespace PollApp.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Catagory = table.Column<string>(nullable: true),
-                    Choice = table.Column<string>(nullable: true),
-                    Choice2 = table.Column<string>(nullable: true),
-                    Choice2Votes = table.Column<int>(nullable: false),
-                    Choice3 = table.Column<string>(nullable: true),
-                    Choice3Votes = table.Column<int>(nullable: false),
-                    Choice4 = table.Column<string>(nullable: true),
-                    Choice4Votes = table.Column<int>(nullable: false),
-                    ChoiceVotes = table.Column<int>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     Total = table.Column<int>(nullable: false)
@@ -45,12 +37,41 @@ namespace PollApp.Migrations
                 {
                     table.PrimaryKey("PK_Polls", x => x.ID);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Choices",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Choice = table.Column<string>(nullable: true),
+                    PollID = table.Column<int>(nullable: false),
+                    Votes = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Choices", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Choices_Polls_PollID",
+                        column: x => x.PollID,
+                        principalTable: "Polls",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Choices_PollID",
+                table: "Choices",
+                column: "PollID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Choices");
 
             migrationBuilder.DropTable(
                 name: "Polls");

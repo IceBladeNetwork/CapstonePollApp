@@ -1,4 +1,5 @@
-﻿@model PollApp.ViewModel.NewPollViewModel
+﻿@using HtmlHelpers.BeginCollectionItemCore;
+@model PollApp.ViewModel.NewPollViewModel
 <h2>Add a poll</h2>
 
 <form asp-controller="Poll" asp-action="New" method="post">
@@ -9,13 +10,13 @@
             <span asp-validation-for="Title"></span>
         </div>
         <div class="form-group">
-            <label asp-for="Choice"></label>
-            <input class="form-control" asp-for="Choice"/>
-            <span asp-validation-for="Choice"></span>
+            <label >Choice</label>
+            <input class="form-control" asp-for="Choices[0]"/>
+            <span asp-validation-for="Choices"></span>
         </div>
         <div class="form-group">
-            <label asp-for="Choices"></label> 2
-            <input class="form-control" asp-for="Choices"/>
+            <label >Choice 2</label>
+            <input class="form-control" asp-for="Choices[1]"/>
             <span asp-validation-for="Choices"></span>
         </div>
     </div>

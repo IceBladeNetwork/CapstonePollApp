@@ -4,7 +4,7 @@
         @foreach (var items in ViewBag.items)
         {
             <tr>
-                <td><a href="Polls/ID/@items.ID">@items.Title</a></td>
+                <td><a href="/Poll/ID/@items.ID">@items.Title</a> | <a href="/Poll/ID/@items.ID/Results">Results</a></td>
             </tr>
         }
     </table>

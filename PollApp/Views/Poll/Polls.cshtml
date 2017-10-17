@@ -2,23 +2,15 @@
 
 @using (Html.BeginForm("Polls", "Poll", FormMethod.Post))
 {
-    <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, "1") @Model.Choice</label>
-    <br />
-    <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, "2") @Model.Choice2</label>
-    <br />
-    @if (Model.Choice3 != null)
-    {
-        <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, "3") @Model.Choice3</label>
-        <br />
-    }
-    @if (Model.Choice4 != null)
-    {
-        <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, "4") @Model.Choice4</label>
-        <br />
-    }
 
-    <input class="btn" type="submit" value="Vote!"/>
+    for (int i = 0; i < Model.PollChoices.Count; i++)
+    {
+        <label>@Html.RadioButtonFor(Model => Model.ChoiceSelected, i.ToString()) @Model.PollChoices[i]</label>
+        <br />
+    }
+    <input class="btn-primary" type="submit" value="Vote!"/>
 }
-
+<br />
+<a href="/Poll/ID/@Model.ID/Results">View Results</a>
 <p>Date Created: @Model.DateCreated</p>
 <p>Category: <a href="/Categories/C/@Model.Category">@Model.Category</a></p>

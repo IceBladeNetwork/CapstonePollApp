@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using PollApp.Models;
 using PollApp.ViewModel;
 using PollApp.Data;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -44,16 +45,34 @@ namespace PollApp.Controllers
                 Polls newPoll = new Polls
                 {
                     Title = newPollViewModel.Title,
-                    Total = 0,
                     Catagory = category,
-                    DateCreated = DateTime.Now
+                    DateCreated = DateTime.Now,
+                    Total = 0
                 };
-
                 context.Polls.Add(newPoll);
                 context.SaveChanges();
+                Polls currentPoll = context.Polls.OrderByDescending(d => d.DateCreated).ToList()[0];
+                foreach (var item in newPollViewModel.Choices) {
+                    Choices newChoice = new Choices
+                    {
+                        Choice = item,
+                        PollID = currentPoll.ID,
+                        Poll = currentPoll,
+                        Votes = 0
+                    };
+                    context.Choices.Add(newChoice);
+                    context.SaveChanges();
+                }
 
-                int newId = context.Polls.OrderByDescending(d => d.DateCreated).ToList()[0].ID;
-                return Redirect("/Poll/New/" + newId);
+                List<Choices> currentPollChoices = context.Choices.Where(p => p.PollID == currentPoll.ID).ToList();
+                foreach (Choices choice in currentPollChoices)
+                {
+                    currentPoll.Choices.Add(choice);
+                    context.SaveChanges();
+                }
+                           
+                
+                return Redirect("/Poll/ID/" + currentPoll.ID + "/Results");
             }
             return View(newPollViewModel);
         }
@@ -62,7 +81,8 @@ namespace PollApp.Controllers
         public IActionResult Polls(int id)
         {
             Polls currentPoll = context.Polls.Single(c => c.ID == id);
-            PollVotingViewModel pollVotingViewModel = new PollVotingViewModel(currentPoll);
+            List<Choices> currentChoices = context.Choices.Where(d => d.PollID == id).ToList();
+            PollVotingViewModel pollVotingViewModel = new PollVotingViewModel(currentPoll, currentChoices);
             return View(pollVotingViewModel);
         }
 
@@ -73,10 +93,20 @@ namespace PollApp.Controllers
             if (ModelState.IsValid)
             {
                 Polls currentPoll = context.Polls.Single(c => c.ID == pollVotingViewModel.ID);
-               
-                return Redirect(pollVotingViewModel.ID.ToString());
+                List<Choices> currentChoices = context.Choices.Where(d => d.PollID == pollVotingViewModel.ID).ToList();
+                for (int i = 0; i <= currentChoices.Count; i++)
+                {
+                    if (pollVotingViewModel.ChoiceSelected == i.ToString())
+                    {
+                        currentChoices[i].Votes++;
+                        currentPoll.Total++;
+                        context.SaveChanges();
+                        break;
+                    }
+                }
+                return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
             }
-            return Redirect(pollVotingViewModel.ID.ToString());
+            return Redirect("/Poll/ID/" + pollVotingViewModel.ID);
         }
 
         [Route("/Poll/ID/{id}/Results")]
@@ -84,6 +114,12 @@ namespace PollApp.Controllers
         {
             Polls currentPoll = context.Polls.Single(c => c.ID == id);
             ViewBag.currentPoll = currentPoll;
+            List<Choices> currentChoices = context.Choices.Where(d => d.PollID == id).ToList();
+            ViewBag.currentChoices = new Dictionary<Choices, float>();
+            foreach (var vote in currentChoices)
+            {
+                ViewBag.currentChoices.Add(vote, (float)vote.Votes / currentPoll.Total * 100);
+            }
             return View();
         }
     }

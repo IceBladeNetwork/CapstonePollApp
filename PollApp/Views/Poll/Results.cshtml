@@ -1,4 +1,5 @@
 ﻿@using System;
+@using PollApp.Models;
 <table class="text-center table">
     <caption class="text-center">@ViewBag.currentPoll.Title</caption>
     <thead>
@@ -8,30 +9,16 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>@ViewBag.currentPoll.Choice</td>
-            <td>@ViewBag.currentPoll.ChoiceVotes (@ViewBag.percent[0]%)</td>
-        </tr>
-        <tr>
-            <td>@ViewBag.currentPoll.Choice2</td>
-            <td>@ViewBag.currentPoll.Choice2Votes (@ViewBag.percent[1]%)</td>
-        </tr>
-        @if (ViewBag.currentPoll.Choice3 != null)
-        {
+        @foreach (KeyValuePair<Choices, float> choice in ViewBag.currentChoices)
+        { 
             <tr>
-                <td>@ViewBag.currentPoll.Choice3</td>
-                <td>@ViewBag.currentPoll.Choice3Votes (@ViewBag.percent[2]%)</td>
+                <td>@choice.Key.Choice</td>
+                <td>@choice.Key.Votes (@choice.Value %)</td>
             </tr>
-        }
-        @if (ViewBag.currentPoll.Choice4 != null)
-        {
-            <tr>
-                <td>@ViewBag.currentPoll.Choice4</td>
-                <td>@ViewBag.currentPoll.Choice4Votes (@ViewBag.percent[3]%)</td>
-            </tr>
+           
         }
         <tr>
-            <td>Total</td>
+            <td>Total:</td>
             <td>@ViewBag.currentPoll.Total</td>
         </tr>
         <tr>

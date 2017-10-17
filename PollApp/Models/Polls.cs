@@ -9,12 +9,9 @@ namespace PollApp.Models
     {
         public int ID { get; set; }
         public string Title { get; set; }
-        public IList<Choices> Choices { get; set; }
+        public List<Choices> Choices { get; set; } = new List<Models.Choices>();
         public int Total { get; set; }
-        public int UserID { get; set; }
-        public Users User { get; set; }
         public string Catagory { get; set; }
         public DateTime DateCreated { get; set; }
-        public List<Users> CantVote { get; set; }
     }
 }

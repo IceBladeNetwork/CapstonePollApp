@@ -8,13 +8,13 @@ using PollApp.Data;
 namespace PollApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170801095704_Initial")]
-    partial class Initial
+    [Migration("20171015112110_ChangingSomeStuff")]
+    partial class ChangingSomeStuff
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.1")
+                .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("PollApp.Models.Categories", b =>
@@ -29,28 +29,30 @@ namespace PollApp.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("PollApp.Models.Choices", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Choice");
+
+                    b.Property<int>("PollID");
+
+                    b.Property<int>("Votes");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PollID");
+
+                    b.ToTable("Choices");
+                });
+
             modelBuilder.Entity("PollApp.Models.Polls", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Catagory");
-
-                    b.Property<string>("Choice");
-
-                    b.Property<string>("Choice2");
-
-                    b.Property<int>("Choice2Votes");
-
-                    b.Property<string>("Choice3");
-
-                    b.Property<int>("Choice3Votes");
-
-                    b.Property<string>("Choice4");
-
-                    b.Property<int>("Choice4Votes");
-
-                    b.Property<int>("ChoiceVotes");
 
                     b.Property<DateTime>("DateCreated");
 
@@ -61,6 +63,14 @@ namespace PollApp.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Polls");
+                });
+
+            modelBuilder.Entity("PollApp.Models.Choices", b =>
+                {
+                    b.HasOne("PollApp.Models.Polls", "Poll")
+                        .WithMany("Choices")
+                        .HasForeignKey("PollID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }
