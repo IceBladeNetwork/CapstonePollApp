@@ -14,8 +14,11 @@ namespace PollApp.Data
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Choices> Choices { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        { }
+
     }
 }

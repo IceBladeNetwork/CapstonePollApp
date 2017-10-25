@@ -53,15 +53,18 @@ namespace PollApp.Controllers
                 context.SaveChanges();
                 Polls currentPoll = context.Polls.OrderByDescending(d => d.DateCreated).ToList()[0];
                 foreach (var item in newPollViewModel.Choices) {
-                    Choices newChoice = new Choices
+                    if (item != "")
                     {
-                        Choice = item,
-                        PollID = currentPoll.ID,
-                        Poll = currentPoll,
-                        Votes = 0
-                    };
-                    context.Choices.Add(newChoice);
-                    context.SaveChanges();
+                        Choices newChoice = new Choices
+                        {
+                            Choice = item,
+                            PollID = currentPoll.ID,
+                            Poll = currentPoll,
+                            Votes = 0
+                        };
+                        context.Choices.Add(newChoice);
+                        context.SaveChanges();
+                    }
                 }
 
                 List<Choices> currentPollChoices = context.Choices.Where(p => p.PollID == currentPoll.ID).ToList();
