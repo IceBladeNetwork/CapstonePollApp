@@ -146,12 +146,14 @@ namespace PollApp.Controllers
 
                 };
                 context.UserPolls.Add(newUserPoll);
-                currentUser.Votes++;
+                var user = context.Users.Single(c => c.UserName == HttpContext.User.Identity.Name);
+                user.Votes++;
+                context.SaveChanges();
                 if (currentUser.Votes == 5)
                 {
                     await userManager.AddToRoleAsync(currentUser, "Member");
                 }
-                context.SaveChanges();
+                
                 return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
             }
             return Redirect("/Poll/ID/" + pollVotingViewModel.ID);

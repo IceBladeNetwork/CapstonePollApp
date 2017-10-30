@@ -71,6 +71,10 @@ namespace PollApp.Controllers
 
                 if (result.Succeeded)
                 {
+                    if (user.Email == "TheIceBladeNetwork@gmail.com")
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                    }
                     await _signInManager.SignInAsync(user, false);
                     return Redirect("/");
                 }

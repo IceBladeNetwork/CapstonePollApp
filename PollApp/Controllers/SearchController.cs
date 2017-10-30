@@ -70,7 +70,7 @@ namespace PollApp.Controllers
                         }
                     }
                 }
-                return View("Index?q=" + searchViewModel, searchViewModel);
+                return View("Index", searchViewModel);
             }
             return Redirect("/search");
         }
