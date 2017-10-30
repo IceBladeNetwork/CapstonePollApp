@@ -11,7 +11,9 @@ namespace PollApp.Models
         public string Title { get; set; }
         public List<Choices> Choices { get; set; } = new List<Models.Choices>();
         public int Total { get; set; }
+        public string Creator { get; set; }
         public string Catagory { get; set; }
         public DateTime DateCreated { get; set; }
+        public List<UserPoll> CantVote { get; set; } = new List<UserPoll>();
     }
 }

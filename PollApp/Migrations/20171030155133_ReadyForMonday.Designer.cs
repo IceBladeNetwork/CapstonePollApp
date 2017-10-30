@@ -8,9 +8,10 @@ using PollApp.Data;
 namespace PollApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171030155133_ReadyForMonday")]
+    partial class ReadyForMonday
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -229,11 +230,13 @@ namespace PollApp.Migrations
                 {
                     b.Property<int>("PollId");
 
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("UserId1");
 
                     b.HasKey("PollId", "UserId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("UserPolls");
                 });
@@ -292,8 +295,7 @@ namespace PollApp.Migrations
 
                     b.HasOne("PollApp.Models.User", "User")
                         .WithMany("CantVoteIn")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId1");
                 });
         }
     }

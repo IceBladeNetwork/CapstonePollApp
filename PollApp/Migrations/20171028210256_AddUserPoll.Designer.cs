@@ -8,12 +8,13 @@ using PollApp.Data;
 namespace PollApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171028210256_AddUserPoll")]
+    partial class AddUserPoll
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.1")
+                .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -211,8 +212,6 @@ namespace PollApp.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<int>("Votes");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -229,13 +228,15 @@ namespace PollApp.Migrations
                 {
                     b.Property<int>("PollId");
 
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("UserId1");
 
                     b.HasKey("PollId", "UserId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
-                    b.ToTable("UserPolls");
+                    b.ToTable("UserPoll");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -292,8 +293,7 @@ namespace PollApp.Migrations
 
                     b.HasOne("PollApp.Models.User", "User")
                         .WithMany("CantVoteIn")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId1");
                 });
         }
     }

@@ -3,6 +3,8 @@
 <h2>Add a poll</h2>
 
 <form asp-controller="Poll" asp-action="New" method="post">
+    <div asp-validation-summary="All"></div>
+
     <div id="choices">
         <div class="form-group">
             <label asp-for="Title"></label>
@@ -20,11 +22,11 @@
             <span asp-validation-for="Choices"></span>
         </div>
     </div>
-    <input type="button" value="Add Choice" id="add" class="btn"/>
+    <input type="button" value="Add Choice" id="add" class="btn btn-lg"/>
     <div class="form-group">
         <label asp-for="CateId"></label>
         <select asp-for="CateId" asp-items="Model.CategoriesList"></select>
         <span asp-validation-for="CateId"></span>
     </div>
-    <input class="btn" type="submit" value="Add Poll"/>
+    <input class="btn btn-lg btn-primary" type="submit" value="Add Poll"/>
 </form>

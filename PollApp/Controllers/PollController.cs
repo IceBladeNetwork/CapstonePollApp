@@ -6,18 +6,26 @@ using PollApp.Models;
 using PollApp.ViewModel;
 using PollApp.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace PollApp.Controllers
 {
+    [Authorize]
     public class PollController : Controller
     {
         private ApplicationDbContext context;
+        private UserManager<User> userManager;
+        private SignInManager<User> signInManager;
 
-        public PollController(ApplicationDbContext dbContext)
+        public PollController(ApplicationDbContext dbContext, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             context = dbContext;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
         }
         // GET: /<controller>/
         public IActionResult Index()
@@ -25,6 +33,7 @@ namespace PollApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Member, Admin")]
         public IActionResult New()
         {
             if (context.Categories.ToList().Count > 0)
@@ -39,13 +48,14 @@ namespace PollApp.Controllers
         [HttpPost]
         public IActionResult New(NewPollViewModel newPollViewModel)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && (newPollViewModel.Choices[0] != null || newPollViewModel.Choices[1] != null))
             {
                 string category = context.Categories.Single(c => c.ID == newPollViewModel.CateId).Category;
                 Polls newPoll = new Polls
                 {
                     Title = newPollViewModel.Title,
                     Catagory = category,
+                    Creator = HttpContext.User.Identity.Name,
                     DateCreated = DateTime.Now,
                     Total = 0
                 };
@@ -53,7 +63,7 @@ namespace PollApp.Controllers
                 context.SaveChanges();
                 Polls currentPoll = context.Polls.OrderByDescending(d => d.DateCreated).ToList()[0];
                 foreach (var item in newPollViewModel.Choices) {
-                    if (item != "")
+                    if (item != null)
                     {
                         Choices newChoice = new Choices
                         {
@@ -77,24 +87,43 @@ namespace PollApp.Controllers
                 
                 return Redirect("/Poll/ID/" + currentPoll.ID + "/Results");
             }
+            foreach (var field in context.Categories.ToList())
+            {
+                newPollViewModel.CategoriesList.Add(new SelectListItem
+                {
+                    Value = field.ID.ToString(),
+                    Text = field.Category
+                });
+            }
+            if (newPollViewModel.Choices[0] == null || newPollViewModel.Choices[1] == null)
+            {
+                ModelState.AddModelError("", "You need atleast 2 choices!");
+            }
             return View(newPollViewModel);
         }
 
         [Route("/Poll/ID/{id}")]
-        public IActionResult Polls(int id)
+        public async Task<IActionResult> Polls(int id)
         {
-            Polls currentPoll = context.Polls.Single(c => c.ID == id);
-            List<Choices> currentChoices = context.Choices.Where(d => d.PollID == id).ToList();
-            PollVotingViewModel pollVotingViewModel = new PollVotingViewModel(currentPoll, currentChoices);
-            return View(pollVotingViewModel);
+            var cantVote = context.UserPolls.Where(p => p.PollId == id).Select(u => u.UserId).ToList();
+            var currentUser = await GetUserByName(HttpContext.User.Identity.Name);
+            if (!cantVote.Contains(currentUser.Id))
+            {
+                Polls currentPoll = context.Polls.Single(c => c.ID == id);
+                List<Choices> currentChoices = context.Choices.Where(d => d.PollID == id).ToList();
+                PollVotingViewModel pollVotingViewModel = new PollVotingViewModel(currentPoll, currentChoices);
+                return View(pollVotingViewModel);
+            }
+            return Redirect("/Poll/ID/" + id + "/Results");
         }
 
         [HttpPost]
         [Route("/Poll/ID/{id}")]
-        public IActionResult Polls(PollVotingViewModel pollVotingViewModel)
+        public async Task<IActionResult> Polls(PollVotingViewModel pollVotingViewModel)
         {
             if (ModelState.IsValid)
             {
+                var currentUser = await GetUserByName(HttpContext.User.Identity.Name);
                 Polls currentPoll = context.Polls.Single(c => c.ID == pollVotingViewModel.ID);
                 List<Choices> currentChoices = context.Choices.Where(d => d.PollID == pollVotingViewModel.ID).ToList();
                 for (int i = 0; i <= currentChoices.Count; i++)
@@ -107,11 +136,28 @@ namespace PollApp.Controllers
                         break;
                     }
                 }
+
+                var newUserPoll = new UserPoll
+                {
+                    UserId = currentUser.Id,
+                    User = currentUser,
+                    PollId = pollVotingViewModel.ID,
+                    Poll = currentPoll
+
+                };
+                context.UserPolls.Add(newUserPoll);
+                currentUser.Votes++;
+                if (currentUser.Votes == 5)
+                {
+                    await userManager.AddToRoleAsync(currentUser, "Member");
+                }
+                context.SaveChanges();
                 return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
             }
             return Redirect("/Poll/ID/" + pollVotingViewModel.ID);
         }
 
+        [AllowAnonymous]
         [Route("/Poll/ID/{id}/Results")]
         public IActionResult Results(int id)
         {
@@ -125,5 +171,8 @@ namespace PollApp.Controllers
             }
             return View();
         }
+
+        private async Task<User> GetUserByName(string name) => await userManager.FindByNameAsync(name);
+
     }
 }

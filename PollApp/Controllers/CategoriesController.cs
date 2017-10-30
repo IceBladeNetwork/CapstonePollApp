@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PollApp.Data;
 using PollApp.ViewModel;
 using PollApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,6 +20,7 @@ namespace PollApp.Controllers
         {
             context = dbContext;
         }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -26,12 +28,14 @@ namespace PollApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult New()
         {
             NewCategoryViewModel newCategoryViewModel = new NewCategoryViewModel();
             return View(newCategoryViewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult New(NewCategoryViewModel newCategoryViewModel)
         {

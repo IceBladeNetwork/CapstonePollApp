@@ -11,6 +11,8 @@ using PollApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using PollApp.Models;
+using PollApp.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 namespace PollApp
 {
@@ -36,6 +38,7 @@ namespace PollApp
             services.AddMvc();
             services.AddDistributedMemoryCache();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,13 +59,15 @@ namespace PollApp
 
             app.UseStaticFiles();
 
+            app.UseIdentity();
+
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
                 AccessDeniedPath = "/Account/Forbidden/",
                 AuthenticationScheme = "MyCookieAuthenticationScheme",
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true,
-                LoginPath = "/Account/Unauthorized/"
+                LoginPath = "/Account/Login"
             });
 
             app.UseMvc(routes =>
@@ -71,6 +76,8 @@ namespace PollApp
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            new UserRoleSeed(app.ApplicationServices.GetService<RoleManager<IdentityRole>>()).Seed();
         }
     }
 }

@@ -12,10 +12,13 @@ namespace PollApp.ViewModel
     {
         [Required]
         public string Title { get; set; }
-        [Required]
+
+        [Required, MinLength(2)]
         public List<string> Choices { get; set; }
+
         [Required, Display(Name = "Category")]
         public int CateId { get; set; }
+
         public List<SelectListItem> CategoriesList { get; set; } = new List<SelectListItem>();
 
         public NewPollViewModel()

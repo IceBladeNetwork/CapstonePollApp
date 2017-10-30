@@ -8,12 +8,13 @@ using PollApp.Data;
 namespace PollApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171027014853_AddIdentity")]
+    partial class AddIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.1")
+                .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -160,8 +161,6 @@ namespace PollApp.Migrations
 
                     b.Property<string>("Catagory");
 
-                    b.Property<string>("Creator");
-
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<string>("Title");
@@ -211,8 +210,6 @@ namespace PollApp.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
-                    b.Property<int>("Votes");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -223,19 +220,6 @@ namespace PollApp.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("PollApp.Models.UserPoll", b =>
-                {
-                    b.Property<int>("PollId");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("PollId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserPolls");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -280,19 +264,6 @@ namespace PollApp.Migrations
                     b.HasOne("PollApp.Models.Polls", "Poll")
                         .WithMany("Choices")
                         .HasForeignKey("PollID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("PollApp.Models.UserPoll", b =>
-                {
-                    b.HasOne("PollApp.Models.Polls", "Poll")
-                        .WithMany("CantVote")
-                        .HasForeignKey("PollId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("PollApp.Models.User", "User")
-                        .WithMany("CantVoteIn")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }
