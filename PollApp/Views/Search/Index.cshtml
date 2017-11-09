@@ -3,7 +3,7 @@
 <h1>@ViewBag.Title</h1>
 <div asp-validation-summary="All"></div>
 
-<form asp-action="Results" asp-controller="Search">
+<form asp-action="Results" asp-controller="Search" method="get" asp-route-value="">
     <div>
         <label asp-for="Value"></label>
         <input asp-for="Value" />

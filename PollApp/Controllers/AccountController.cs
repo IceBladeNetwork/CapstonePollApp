@@ -35,7 +35,7 @@ namespace PollApp.Controllers
         }
 
         public IActionResult Login()
-        {
+        { 
             return View();
         }
 
@@ -53,6 +53,14 @@ namespace PollApp.Controllers
                 ModelState.AddModelError("", "Username or password is incorrect!");
             }
             return View(loginViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Redirect("/");
         }
 
         public IActionResult Register()

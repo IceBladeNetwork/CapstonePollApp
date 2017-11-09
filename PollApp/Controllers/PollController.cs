@@ -112,6 +112,7 @@ namespace PollApp.Controllers
                 Polls currentPoll = context.Polls.Single(c => c.ID == id);
                 List<Choices> currentChoices = context.Choices.Where(d => d.PollID == id).ToList();
                 PollVotingViewModel pollVotingViewModel = new PollVotingViewModel(currentPoll, currentChoices);
+                pollVotingViewModel.Creator = currentPoll.Creator;
                 return View(pollVotingViewModel);
             }
             return Redirect("/Poll/ID/" + id + "/Results");

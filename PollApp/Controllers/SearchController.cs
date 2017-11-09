@@ -29,7 +29,7 @@ namespace PollApp.Controllers
             return View(searchViewModel);
         }
 
-        public IActionResult Results(SearchViewModel searchViewModel)
+        public IActionResult Results(string value, SearchViewModel searchViewModel)
         {
             if (searchViewModel.Value != null)
             {
@@ -56,6 +56,7 @@ namespace PollApp.Controllers
                         }
                     }
                 }
+
                 if (searchViewModel.Column.ToLower() == "All".ToLower() || searchViewModel.Column.ToLower() == "Choice".ToLower())
                 {
                     List<Choices> choiceList = context.Choices.ToList();

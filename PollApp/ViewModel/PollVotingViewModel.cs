@@ -13,6 +13,7 @@ namespace PollApp.ViewModel
         public string Title { get; set; }
         public List<string> PollChoices { get; set; }
         public string Category { get; set; }
+        public string Creator { get; set; }
 
         [Required]
         public String ChoiceSelected { get; set; }
