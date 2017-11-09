@@ -1,5 +1,5 @@
-var currentChoice = 2;
-var newInput = '<div class="form-group"><label>Choice {1}</label><input class="form-control" name="Choices[{0}]"/><span asp-validation-for="Choice"></span></div > ';
+var currentChoice = document.getElementsByClassName("choice").length;
+var newInput = '<div class="form-group"><label>Choice {1}</label><input class="form-control choice" name="Choices[{0}]"/><span asp-validation-for="Choice"></span></div > ';
 $("#add").click(function() {
     $.ajax({
         url: this.href,

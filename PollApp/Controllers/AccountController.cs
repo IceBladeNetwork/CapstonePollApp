@@ -71,7 +71,7 @@ namespace PollApp.Controllers
 
                 if (result.Succeeded)
                 {
-                    if (user.Email == "TheIceBladeNetwork@gmail.com")
+                    if (user.Email.ToLower() == "theicebladenetwork@gmail.com")
                     {
                         await _userManager.AddToRoleAsync(user, "Admin");
                     }

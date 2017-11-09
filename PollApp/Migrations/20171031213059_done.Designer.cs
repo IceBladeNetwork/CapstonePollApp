@@ -8,8 +8,8 @@ using PollApp.Data;
 namespace PollApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171030174124_FinalForTheDay")]
-    partial class FinalForTheDay
+    [Migration("20171031213059_done")]
+    partial class done
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

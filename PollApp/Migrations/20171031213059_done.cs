@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace PollApp.Migrations
 {
-    public partial class FinalForTheDay : Migration
+    public partial class done : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

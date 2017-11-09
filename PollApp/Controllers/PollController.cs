@@ -48,7 +48,7 @@ namespace PollApp.Controllers
         [HttpPost]
         public IActionResult New(NewPollViewModel newPollViewModel)
         {
-            if (ModelState.IsValid && (newPollViewModel.Choices[0] != null || newPollViewModel.Choices[1] != null))
+            if (ModelState.IsValid && (newPollViewModel.Choices[0] != null && newPollViewModel.Choices[1] != null))
             {
                 string category = context.Categories.Single(c => c.ID == newPollViewModel.CateId).Category;
                 Polls newPoll = new Polls

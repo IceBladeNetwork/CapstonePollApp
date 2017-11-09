@@ -39,21 +39,20 @@ namespace PollApp.Controllers
                 {
                     foreach (Polls poll in pollList)
                     {
-                        if (searchViewModel.Column.ToLower() == "Title".ToLower() || searchViewModel.Column.ToLower() == "All".ToLower())
+                        if (poll.Title.ToLower().Contains(searchViewModel.Value.ToLower()))
                         {
-                            if (poll.Title.ToLower().Contains(searchViewModel.Value.ToLower()))
-                            {
-                                searchViewModel.Polls.Add(poll);
-                                idList.Add(poll.ID);
-                            }
+                            searchViewModel.Polls.Add(poll);
+                            idList.Add(poll.ID);
                         }
-                        else if (searchViewModel.Column.ToLower() == "Category".ToLower() || searchViewModel.Column.ToLower() == "All".ToLower())
+                        else if (poll.Catagory.ToLower().Contains(searchViewModel.Value.ToLower()))
                         {
-                            if (poll.Catagory.ToLower().Contains(searchViewModel.Value.ToLower()))
-                            {
-                                searchViewModel.Polls.Add(poll);
-                                idList.Add(poll.ID);
-                            }
+                            searchViewModel.Polls.Add(poll);
+                            idList.Add(poll.ID);
+                        }
+                        else if (poll.Creator.ToLower().Contains(searchViewModel.Value.ToLower()))
+                        {
+                            searchViewModel.Polls.Add(poll);
+                            idList.Add(poll.ID);
                         }
                     }
                 }

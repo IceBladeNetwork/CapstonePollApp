@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PollApp.ViewModel
 {
-    public class UserManagmentViewModel
+    public class ManagePollViewModel
     {
-        public List<User> Users { get; set; }
+        public List<Polls> Polls { get; set; }
     }
 }
