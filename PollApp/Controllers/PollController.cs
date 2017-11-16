@@ -153,6 +153,8 @@ namespace PollApp.Controllers
                 if (currentUser.Votes == 5)
                 {
                     await userManager.AddToRoleAsync(currentUser, "Member");
+                    await signInManager.SignOutAsync();
+                    await signInManager.SignInAsync(currentUser, false);
                 }
                 
                 return Redirect("/Poll/ID/" + pollVotingViewModel.ID + "/Results");
