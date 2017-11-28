@@ -77,7 +77,7 @@ namespace PollApp
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            new UserRoleSeed(app.ApplicationServices.GetService<RoleManager<IdentityRole>>()).Seed();
+            new UserRoleSeed(app.ApplicationServices.GetService<RoleManager<IdentityRole>>(), app.ApplicationServices.GetService<ApplicationDbContext>(), app.ApplicationServices.GetService<UserManager<User>>()).Seed();
         }
     }
 }
