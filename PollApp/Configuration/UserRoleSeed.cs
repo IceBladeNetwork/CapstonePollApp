@@ -36,13 +36,6 @@ namespace PollApp.Configuration
                 await roleManager.CreateAsync(new IdentityRole { Name = "Admin"});
             }
 
-            if (await userManager.FindByNameAsync("icebladenetwork") == null) 
-            {
-                var user = new User { UserName = "IceBladeNetwork", Email = "theicebladenetwork@gmail.com" };
-                await userManager.CreateAsync(user, "Passw0rd!");
-                await userManager.AddToRoleAsync(user, "Admin");
-            }
-
             if (!dbContext.Categories.Any(c => c.Category == "Programming")) 
             {
                 Categories newCategories = new Categories
